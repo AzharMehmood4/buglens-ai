@@ -21,7 +21,7 @@ export default function Home() {
       });
 
       const data = await res.json();
-      setResult(data.analysis || "No response");
+      setResult(data.analysis || data.error || "No response");
     } catch (error) {
       setResult("Error: " + error.message);
     }
@@ -33,7 +33,7 @@ export default function Home() {
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center p-6">
 
       <h1 className="text-5xl font-bold mb-3">
-        BugLens AI 🧠
+        BugLens AI 
       </h1>
 
       <p className="text-gray-400 mb-8 text-center">
