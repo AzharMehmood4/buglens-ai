@@ -4,7 +4,7 @@ export async function POST(req) {
   try {
     const { code } = await req.json();
 
-    // 🔒 Check API key
+    // Check API key
     if (!process.env.GEMINI_API_KEY) {
       return Response.json({
         success: false,
@@ -12,15 +12,15 @@ export async function POST(req) {
       });
     }
 
-    // 🤖 Init Gemini
+    // Init Gemini
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-    // ⚠️ FIXED MODEL NAME (important)
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      // Best option for most debugging use cases
+            model: "gemini-2.5-flash"
     });
 
-    // 🧠 Prompt
+    // Prompt
     const prompt = `
 You are BugLens AI, a senior software engineer.
 
@@ -35,7 +35,6 @@ Return in this format:
 4. Best practices
 `;
 
-    // 🚀 Generate response
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
