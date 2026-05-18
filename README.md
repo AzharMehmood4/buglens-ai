@@ -15,11 +15,3 @@ An intelligent debugging tool that helps developers understand errors, analyze s
 - Clean, developer-friendly interface
 
 ---
-
-## 🚀 Quick Start
-
-```bash
-git clone <your-repo>
-cd buglens-ai
-npm install
-npm run dev
