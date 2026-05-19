@@ -55,7 +55,7 @@ export default function Home() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-6xl font-bold mb-3">🐞 BugLens AI</h1>
+          <h1 className="text-6xl font-bold mb-3"> BugLens AI</h1>
           <p className="text-gray-400 text-xl">
             AI-Powered Debugging Assistant
           </p>
@@ -82,7 +82,7 @@ export default function Home() {
                 onChange={handleImageChange}
                 className="hidden"
               />
-              <span className="text-4xl mb-3">📸</span>
+              <span className="text-4xl mb-3"></span>
               <span className="font-medium">Click to upload screenshot</span>
               <span className="text-sm text-gray-500 mt-1">PNG, JPG, WebP supported</span>
             </label>
@@ -110,7 +110,7 @@ export default function Home() {
             disabled={loading}
             className="mt-8 w-full bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-700 py-4 rounded-xl font-semibold text-lg transition"
           >
-            {loading ? "Analyzing with AI..." : "🚀 Analyze Bug"}
+            {loading ? "Analyzing with AI..." : " Analyze Bug"}
           </button>
         </div>
 
@@ -123,7 +123,7 @@ export default function Home() {
                 onClick={() => navigator.clipboard.writeText(result)}
                 className="text-blue-400 hover:text-blue-300 text-sm"
               >
-                📋 Copy
+                 Copy
               </button>
             </div>
             
