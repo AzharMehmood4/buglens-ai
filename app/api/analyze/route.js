@@ -1,41 +1,67 @@
+// app/api/analyze/route.js
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(req) {
   try {
-    const { code } = await req.json();
+    const formData = await req.formData();
+    const textInput = formData.get("code") || "";
+    const imageFile = formData.get("image");
 
-    // Check API key
     if (!process.env.GEMINI_API_KEY) {
-      return Response.json({
-        success: false,
-        error: "Missing GEMINI_API_KEY in .env.local",
+      return Response.json({ 
+        success: false, 
+        error: "Missing GEMINI_API_KEY in .env.local" 
       });
     }
 
-    // Init Gemini
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-    const model = genAI.getGenerativeModel({
-      // Best option for most debugging use cases
-            model: "gemini-2.5-flash"
+    
+    // ✅ Best working model right now
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-2.5-flash" 
     });
 
-    // Prompt
-    const prompt = `
-You are BugLens AI, a senior software engineer.
+    let promptText = `
+You are BugLens AI — a senior full-stack software engineer and expert debugger.
 
-Analyze this code/error:
+Analyze the error message or screenshot and respond using this exact structure:
 
-${code}
+**1. Problem**
+Short and clear summary of the issue.
 
-Return in this format:
-1. Problem
-2. Root cause
-3. Fix
-4. Best practices
+**2. Root Cause**
+Explain why this error happened.
+
+**3. Solution**
+Step-by-step instructions to fix it.
+
+**4. Fixed Code** (if applicable)
+\`\`\`js
+// Fixed code here
+\`\`\`
+
+**5. Prevention Tips**
+How to avoid this bug in the future.
 `;
 
-    const result = await model.generateContent(prompt);
+    if (textInput) {
+      promptText += `\n\nUser Input:\n${textInput}`;
+    }
+
+    const contents = [promptText];
+
+    // Handle Image (Screenshot)
+    if (imageFile) {
+      const bytes = await imageFile.arrayBuffer();
+      contents.push({
+        inlineData: {
+          data: Buffer.from(bytes).toString("base64"),
+          mimeType: imageFile.type || "image/png",
+        },
+      });
+    }
+
+    const result = await model.generateContent(contents);
     const response = await result.response;
     const text = response.text();
 
@@ -45,11 +71,10 @@ Return in this format:
     });
 
   } catch (error) {
-    console.error("Gemini API Error:", error);
-
+    console.error("BugLens API Error:", error);
     return Response.json({
       success: false,
-      error: error?.message || "Something went wrong",
+      error: error?.message || "Failed to analyze bug",
     });
   }
 }
