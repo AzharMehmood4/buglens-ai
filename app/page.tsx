@@ -1,6 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { 
+  Bug, 
+  Upload, 
+  Trash2, 
+  Copy, 
+  Send, 
+  Loader2 
+} from "lucide-react";
 
 export default function Home() {
   const [textInput, setTextInput] = useState("");
@@ -55,7 +63,10 @@ export default function Home() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-6xl font-bold mb-3"> BugLens AI</h1>
+          <div className="flex justify-center mb-4">
+            <Bug size={64} className="text-blue-500" />
+          </div>
+          <h1 className="text-6xl font-bold mb-3">BugLens AI</h1>
           <p className="text-gray-400 text-xl">
             AI-Powered Debugging Assistant
           </p>
@@ -82,7 +93,7 @@ export default function Home() {
                 onChange={handleImageChange}
                 className="hidden"
               />
-              <span className="text-4xl mb-3"></span>
+              <Upload size={48} className="mb-4 text-gray-400" />
               <span className="font-medium">Click to upload screenshot</span>
               <span className="text-sm text-gray-500 mt-1">PNG, JPG, WebP supported</span>
             </label>
@@ -95,10 +106,13 @@ export default function Home() {
                   className="max-h-64 rounded-xl border border-zinc-700 mx-auto"
                 />
                 <button
-                  onClick={() => { setImage(null); setImagePreview(null); }}
-                  className="text-red-400 text-sm mt-2 hover:underline"
+                  onClick={() => { 
+                    setImage(null); 
+                    setImagePreview(null); 
+                  }}
+                  className="text-red-400 hover:text-red-500 text-sm mt-3 flex items-center gap-2"
                 >
-                  Remove image
+                  <Trash2 size={16} /> Remove image
                 </button>
               </div>
             )}
@@ -108,9 +122,19 @@ export default function Home() {
           <button
             onClick={analyzeBug}
             disabled={loading}
-            className="mt-8 w-full bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-700 py-4 rounded-xl font-semibold text-lg transition"
+            className="mt-8 w-full bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-700 py-4 rounded-xl font-semibold text-lg transition flex items-center justify-center gap-2"
           >
-            {loading ? "Analyzing with AI..." : " Analyze Bug"}
+            {loading ? (
+              <>
+                <Loader2 size={22} className="animate-spin" />
+                Analyzing with AI...
+              </>
+            ) : (
+              <>
+                <Send size={22} />
+                Analyze Bug
+              </>
+            )}
           </button>
         </div>
 
@@ -121,9 +145,9 @@ export default function Home() {
               <h2 className="text-2xl font-semibold">Analysis Result</h2>
               <button
                 onClick={() => navigator.clipboard.writeText(result)}
-                className="text-blue-400 hover:text-blue-300 text-sm"
+                className="text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm"
               >
-                 Copy
+                <Copy size={18} /> Copy
               </button>
             </div>
             
