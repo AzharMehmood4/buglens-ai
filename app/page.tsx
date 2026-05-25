@@ -82,7 +82,7 @@ export default function Home() {
             onChange={(e) => setTextInput(e.target.value)}
           />
 
-          {/* Screenshot Upload */}
+          {/* pic Upload */}
           <div className="mt-6">
             <p className="text-sm text-gray-400 mb-3">Or upload error screenshot</p>
             
@@ -94,7 +94,7 @@ export default function Home() {
                 className="hidden"
               />
               <Upload size={48} className="mb-4 text-gray-400" />
-              <span className="font-medium">Click to upload screenshot</span>
+              <span className="font-medium">Click to upload error screenshot</span>
               <span className="text-sm text-gray-500 mt-1">PNG, JPG, WebP supported</span>
             </label>
 
@@ -118,7 +118,7 @@ export default function Home() {
             )}
           </div>
 
-          {/* Analyze Button */}
+          {/* Analyze */}
           <button
             onClick={analyzeBug}
             disabled={loading}
